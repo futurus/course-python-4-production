@@ -118,7 +118,7 @@ class DataReader:
             for row in data_file:
                 row_data = row.strip().split(self._sep)
 
-                yield {col_name: value for col_name, value in zip(self.get_column_names(), row_data)}
+                yield dict(zip(self.get_column_names(), row_data))
     ######################################## YOUR CODE HERE ##################################################
 
     def get_file_path(self):
