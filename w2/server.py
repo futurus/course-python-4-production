@@ -13,7 +13,8 @@ app = FastAPI()
 manager = ConnectionManager()
 
 # start an asynchronous task that will keep broadcasting the process status to all the connected clients
-broadcast_continuous = Thread(target=asyncio.run, args=(manager.broadcast_all(),))
+broadcast_continuous = Thread(
+    target=asyncio.run, args=(manager.broadcast_all(),))
 broadcast_continuous.start()
 
 
@@ -42,7 +43,7 @@ async def get() -> Dict:
     """
 
     ######################################## YOUR CODE HERE ##################################################
-
+    return {"status": "ok"}
     ######################################## YOUR CODE HERE ##################################################
 
 
@@ -53,7 +54,10 @@ async def get() -> HTMLResponse:
     should render the HTML file - index.html when a user goes to http://127.0.0.1:8000/
     """
     ######################################## YOUR CODE HERE ##################################################
-
+    with open('index.html','r') as f:
+        html = f.read()
+    
+    return HTMLResponse(html, status_code=200)
     ######################################## YOUR CODE HERE ##################################################
 
 
@@ -64,5 +68,8 @@ async def get() -> List[ProcessStatus]:
     Get all the records from the process table and return it using the pydantic model ProcessStatus
     """
     ######################################## YOUR CODE HERE ##################################################
+    db = DB()
+    data = db.read_all()
 
+    return [ProcessStatus(**process) for process in data]
     ######################################## YOUR CODE HERE ##################################################
